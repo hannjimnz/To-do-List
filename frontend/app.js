@@ -16,7 +16,7 @@ async function loadTasks(filter = '') {
     const response = await fetch(url);
     const tasks = await response.json();
 
-    const taskList = document.getElementById('task-List');
+    const taskList = document.getElementById('task-list');
     taskList.innerHTML = '';
 
     tasks.forEach(task =>{

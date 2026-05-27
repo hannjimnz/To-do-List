@@ -52,7 +52,7 @@ def get_tasks(completed: Optional[bool]= None):
     cursor = conn.cursor()
 
     if completed is not None:
-        cursor.execute ("SELECT id, title, completed FROM task WHERE completed = ?", (1 if completed else 0,))
+        cursor.execute ("SELECT id, title, completed FROM tasks WHERE completed = ?", (1 if completed else 0,))
     else:
         cursor.execute("SELECT id, title, completed FROM tasks")
     
@@ -89,3 +89,5 @@ def toggle_task(task_id: int):
     conn.commit()
     conn.close()
     return{"message": "Estado actualizado", "completed": bool(new_status)}
+
+#uvicorn main:app --reload
