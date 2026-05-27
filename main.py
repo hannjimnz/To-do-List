@@ -41,3 +41,21 @@ def init_db():
     conn.commit()
     conn.close()
 init_db()
+
+# implementacion de las rutas de la API 
+
+#primero obtendremos tareas 
+
+@app.get("/tasks", response_model=List[Task])
+def get_tasks(completed: Optional[bool]= None):
+    conn = sqlite3.connect("todo.db")
+    cursor = conn.cursor()
+
+    if completed is not None:
+        cursor.execute ("SELECT id, title, completed FROM task WHERE completed = ?", (1 if completed else 0,))
+    else:
+        cursor.execute("SELECT id, title, completed FROM tasks")
+    
+    rows = cursor.fetchall()
+    conn.close()
+    return [{"id": r[0], "title": r[1], "completed": bool(r[2])} for r in rows]
