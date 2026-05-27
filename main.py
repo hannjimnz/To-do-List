@@ -70,3 +70,22 @@ def create_task(task: TaskCreate):
     conn.commit()
     conn.close()
     return {"id": task_id, "title": task.title, "completed": False}
+
+#alternar estado de la tarea, si esta completa o esta pendiente
+
+@app.patch("/tasks/{task_id}")
+def toggle_task(task_id: int):
+    conn = sqlite3.connect("todo.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT completed FROM tasks WHERE id = ?", (task_id,))
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Tarea no encontrada")
+    
+    new_status = 0 if row[0] == 1 else 1
+    cursor.execute("UPDATE tasks SET completed = ? WHERE id = ?", (new_status, task_id))
+    conn.commit()
+    conn.close()
+    return{"message": "Estado actualizado", "completed": bool(new_status)}
