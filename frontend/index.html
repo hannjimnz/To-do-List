@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Portafolio - ToDo List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <style>
+        .completed { text-decoration: line-through; color: gray; }
+        .task-item { display: flex; justify-content: space-between; align-items: center; }
+    </style>
+</head>
+<body class="container" style="padding-top: 2rem; max-width: 600px;">
+    <main>
+        <h2>📝 Lista de Tareas (To-Do List)</h2>
+        
+        <form id="task-form" style="display: flex; gap: 10px;">
+            <input type="text" id="task-input" placeholder="Escribe una nueva tarea..." required>
+            <button type="submit" style="width: auto;">Agregar</button>
+        </form>
+
+        <div style="margin-bottom: 1rem; display: flex; gap: 10px;">
+            <button class="outline" onclick="loadTasks()">Todas</button>
+            <button class="outline secondary" onclick="loadTasks('false')">Pendientes</button>
+            <button class="outline success" onclick="loadTasks('true')">Completadas</button>
+        </div>
+
+        <ul id="task-list"></ul>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
