@@ -59,3 +59,14 @@ def get_tasks(completed: Optional[bool]= None):
     rows = cursor.fetchall()
     conn.close()
     return [{"id": r[0], "title": r[1], "completed": bool(r[2])} for r in rows]
+
+# crear  nuesvas tareas
+@app.post("/tasks", response_model=Task) 
+def create_task(task: TaskCreate):
+    conn = sqlite3.connect("todo.db")
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO tasks (title, completed) VALUES (?, 0)", (task.title,))
+    task_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return {"id": task_id, "title": task.title, "completed": False}
